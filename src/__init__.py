@@ -6,10 +6,11 @@ particularly focusing on financial data extraction and analysis.
 """
 
 # Import and expose key functionality
-from .document_loader import docs, loader
-
+from .document_loader import convert_pdf_to_markdown
+from .local_llm import OllamaLLM
+from .models import Institution, Account, Transaction, OwnershipType, AccountType, TransactionType, InstitutionType
 # Define what gets imported with "from src import *"
-__all__ = ['docs', 'loader']
+__all__ = ['convert_pdf_to_markdown', 'OllamaLLM']
 
 # Package metadata
 __version__ = '0.1.0'

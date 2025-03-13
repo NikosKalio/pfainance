@@ -1,0 +1,41 @@
+<!-- [MermaidChart: 5dddf1ce-cd5e-4be5-b563-f64bf1b654de] -->
+```mermaid
+erDiagram
+    institutions ||--o{ accounts : provides
+    accounts ||--o{ transactions : contains
+    accounts ||--o{ balances : has
+    
+    institutions {
+        integer id PK
+        text name
+        text type
+    }
+    
+    accounts {
+        integer id PK
+        integer institution_id FK
+        text account_number
+        text type
+        text currency
+        text holder_name
+        text ownership "personal/joint/business"
+    }
+    
+    transactions {
+        integer id PK
+        integer account_id FK
+        text date
+        text description
+        real amount
+        text currency
+        real balance_after
+        text category
+        text transaction_type "payment/transfer/deposit/withdrawal"
+        integer transfer_reference_id FK "Links related transfers"
+    }
+    
+    balances {
+        integer id PK
+        integer account_id FK
+        text date
+        real amount
