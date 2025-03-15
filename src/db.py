@@ -1,7 +1,7 @@
 import sqlite3
 import os
 from pathlib import Path
-from src.models import Account, Transaction
+from src.models import Account, Transaction, Institution
 
 #TABLES
 accounts_table = '''
@@ -28,7 +28,13 @@ CREATE TABLE IF NOT EXISTS transactions (
     transfer_reference_id INTEGER
 )
 '''
-
+Institution_table = '''
+CREATE TABLE IF NOT EXISTS institutions (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    type TEXT NOT NULL
+)
+'''
 
 # 1. Create a database connection (this also creates the file if it doesn't exist)
 def create_connection(db_file="pfainance.db"):
@@ -109,6 +115,26 @@ def insert_transaction(conn, transaction: Transaction):
     except sqlite3.Error as e:
         print(f"Error inserting transaction: {e}")
         return None
+
+def insert_institution(conn, institution: Institution):
+    """Insert a new institution into the institutions table"""
+    sql = '''INSERT INTO institutions(name, type) VALUES(?, ?)'''
+    try:
+        cursor = conn.cursor()
+        data=institution.model_dump()
+        print(data)
+        values= (
+            data["name"],
+            data["type"]
+        )
+        cursor.execute(sql, values)
+        conn.commit()
+        print(f"Institution inserted with id: {cursor.lastrowid}")
+        return cursor.lastrowid
+    except sqlite3.Error as e:
+        print(f"Error inserting institution: {e}")
+        return None
+
 # 4. Query and display all accounts
 def select_all_accounts(conn):
     """Query all rows in the accounts table"""
@@ -136,10 +162,14 @@ def main():
     conn = create_connection()
     conn.execute(accounts_table)
     conn.execute(transactions_table)
+    conn.execute(Institution_table)
     
     if conn is not None:
-        # Create the accounts table
-        
+        # Insert some sample institutions
+        institution1 = Institution(name="UBS", type="bank")
+        institution2 = Institution(name="Revolut", type="bank")
+        insert_institution(conn, institution1)
+        insert_institution(conn, institution2)
         
         # Insert some sample accounts
         account1 = Account(account_number="1234567890", institution_id=1, type="checking",  currency="CHF", nickname="Checking")

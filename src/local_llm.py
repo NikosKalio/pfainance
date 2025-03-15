@@ -50,5 +50,8 @@ def main():
         print("--------------------------------")
 
 
+
+#writes transactions, 
+
 if __name__ == "__main__":
     main()

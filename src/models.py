@@ -43,7 +43,7 @@ class Institution(BaseModel):
 class Account(BaseModel):
     id: Optional[int] = None
     institution_id: int
-    account_number: str
+    account_number: str # IBAN or card number
     type: AccountType
     currency: str
     nickname: Optional[str] = None
