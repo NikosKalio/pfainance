@@ -9,4 +9,6 @@ dependencies = [
     "langchain-docling>=0.2.0",
     "langchain-ollama>=0.2.3",
     "langchain-text-splitters>=0.3.6",
+    "pydantic-ai>=0.0.40",
+    "sqlalchemy>=2.0.39",
 ]

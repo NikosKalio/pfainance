@@ -8,7 +8,7 @@ particularly focusing on financial data extraction and analysis.
 # Import and expose key functionality
 from .document_loader import convert_pdf_to_markdown
 from .local_llm import OllamaLLM
-from .models import Institution, Account, Transaction, OwnershipType, AccountType, TransactionType, InstitutionType
+from .models import Institution, Account, Transaction, AccountType, TransactionType, InstitutionType
 # Define what gets imported with "from src import *"
 __all__ = ['convert_pdf_to_markdown', 'OllamaLLM']
 

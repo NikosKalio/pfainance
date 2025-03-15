@@ -22,10 +22,6 @@ class AccountType(str, Enum):
     OTHER = "other"
 
 
-class OwnershipType(str, Enum):
-    PERSONAL = "personal"
-    JOINT = "joint"
-    BUSINESS = "business"
 
 
 class TransactionType(str, Enum):
@@ -50,8 +46,8 @@ class Account(BaseModel):
     account_number: str
     type: AccountType
     currency: str
-    holder_name: str
-    ownership: OwnershipType
+    nickname: Optional[str] = None
+
 
     class Config:
         from_attributes = True
@@ -61,13 +57,13 @@ class Transaction(BaseModel):
     id: Optional[int] = None
     account_id: int
     date: date
-    description: str
+    description: Optional[str] = None
     amount: float
     currency: str
-    balance_after: float
-    category: str
+    category: Optional[str] = None
     transaction_type: TransactionType
     transfer_reference_id: Optional[int] = None
+    balance_id: Optional[int] = None # applies only to accounts not credit cards
 
     class Config:
         from_attributes = True

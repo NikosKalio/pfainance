@@ -1,8 +1,13 @@
 from langchain_ollama.llms import OllamaLLM
-from src.models import Institution, Account, Transaction, OwnershipType, AccountType, TransactionType, InstitutionType
+from src.models import Institution, Account, Transaction,  AccountType, TransactionType, InstitutionType
 from langchain_text_splitters import MarkdownHeaderTextSplitter
 from langchain_text_splitters import ExperimentalMarkdownSyntaxTextSplitter
 from langchain_text_splitters import CharacterTextSplitter
+
+from pydantic_ai import Agent
+from pydantic_ai.models.openai import OpenAIModel
+from pydantic_ai.providers.openai import OpenAIProvider
+
 
 def main():
     llm = OllamaLLM(model="mistral")
@@ -39,10 +44,11 @@ def main():
         print(chunk)
         print("--------------------------------")
         # Streaming generation
-        for tokens in llm.stream(f"if you see transactions, comment if they were wise or not in a sassy gay way: {chunk}"):
+        for tokens in llm.stream(f"if you see transactions, comment if they were wise or not in a sassy drag queen way: {chunk}"):
             print(tokens, end="", flush=True)
         print()  # Add a newline at the end
         print("--------------------------------")
+
 
 if __name__ == "__main__":
     main()
