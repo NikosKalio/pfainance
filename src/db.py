@@ -24,8 +24,7 @@ CREATE TABLE IF NOT EXISTS transactions (
     amount REAL NOT NULL,
     currency TEXT NOT NULL,
     category TEXT,
-    transaction_type TEXT NOT NULL,
-    transfer_reference_id INTEGER
+    transaction_type TEXT NOT NULL
 )
 '''
 Institution_table = '''
@@ -92,7 +91,7 @@ def insert_account(conn, account: Account):
 def insert_transaction(conn, transaction: Transaction):
     """Insert a new account into the accounts table"""
     
-    sql = '''INSERT INTO transactions(account_id,date, description, amount, currency, category, transaction_type, transfer_reference_id) VALUES(?, ?, ?, ?, ?, ?, ?, ?)'''
+    sql = '''INSERT INTO transactions(account_id,date, description, amount, currency, category, transaction_type) VALUES(?, ?, ?, ?, ?, ?, ?)'''
     try:
         cursor = conn.cursor()
         data=transaction.model_dump()
@@ -104,8 +103,7 @@ def insert_transaction(conn, transaction: Transaction):
             data["amount"],
             data["currency"],
             data["category"],
-            data["transaction_type"],
-            data["transfer_reference_id"]
+            data["transaction_type"]
         )
         cursor.execute(sql, values)
         conn.commit()

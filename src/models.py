@@ -3,7 +3,6 @@ from enum import Enum
 from typing import Optional
 from pydantic import BaseModel
 
-
 class InstitutionType(str, Enum):
     BANK = "bank"
     CREDIT_UNION = "credit_union"
@@ -21,15 +20,11 @@ class AccountType(str, Enum):
     MORTGAGE = "mortgage"
     OTHER = "other"
 
-
-
-
 class TransactionType(str, Enum):
     PAYMENT = "payment"
     TRANSFER = "transfer"
     DEPOSIT = "deposit"
     WITHDRAWAL = "withdrawal"
-
 
 class Institution(BaseModel):
     id: Optional[int] = None
@@ -52,6 +47,21 @@ class Account(BaseModel):
     class Config:
         from_attributes = True
 
+class TransactionParser(BaseModel):
+    # Using Optional fields to see what the model is able to parse correctly
+    amount: Optional[float] = None 
+    description: Optional[str] = None
+    date: Optional[str] = None
+    
+    # Add this method to see the raw data being validated
+    @classmethod
+    def __get_validators__(cls):
+        yield cls.validate
+    
+    @classmethod
+    def validate(cls, v):
+        print(f"Validating: {v}")
+        return v
 
 class Transaction(BaseModel):
     id: Optional[int] = None
@@ -62,11 +72,11 @@ class Transaction(BaseModel):
     currency: str
     category: Optional[str] = None
     transaction_type: TransactionType
-    transfer_reference_id: Optional[int] = None
     balance_id: Optional[int] = None # applies only to accounts not credit cards
 
     class Config:
         from_attributes = True
+
 
 
 class Balance(BaseModel):
